@@ -101,3 +101,6 @@ class WD_SECTION_START(XmlEnumeration):
             'ODD_PAGE', 4, 'oddPage', 'Section begins on next odd page.'
         ),
     )
+
+
+WD_SECTION = WD_SECTION_START

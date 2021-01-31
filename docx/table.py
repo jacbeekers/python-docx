@@ -188,6 +188,22 @@ class Table(Parented):
     def _tblPr(self):
         return self._tbl.tblPr
 
+    @property
+    def caption(self):
+        return self._element.tblCaption_val
+
+    @caption.setter
+    def caption(self, value):
+        self._element.tblCaption_val = value
+
+    @property
+    def description(self):
+        return self._element.tblDescription_val
+
+    @description.setter
+    def description(self, value):
+        self._element.tblDescription_val = value
+
 
 class _Cell(BlockItemContainer):
     """Table cell"""

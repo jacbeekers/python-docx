@@ -45,6 +45,14 @@ class DocumentPart(BaseStoryPart):
         return self.package.core_properties
 
     @property
+    def extended_properties(self):
+        """
+        A |ExtendedProperties| object providing read/write access to the extended
+        properties of this document.
+        """
+        return self.package.extended_properties
+
+    @property
     def document(self):
         """
         A |Document| object providing access to the content of this document.

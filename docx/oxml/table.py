@@ -180,6 +180,36 @@ class CT_Tbl(BaseOxmlElement):
             return
         tblPr._add_tblStyle().val = styleId
 
+    @property
+    def tblCaption_val(self):
+        caption = self.tblPr.tblCaption
+        if caption is None:
+            return None
+        return caption.values()[0]
+
+    @tblCaption_val.setter
+    def tblCaption_val(self, caption):
+        tblrPr = self.tblPr
+        tblrPr._remove_tblCaption()
+        if caption is None:
+            return
+        tblrPr._add_tblCaption().val = caption
+
+    @property
+    def tblDescription_val(self):
+        description = self.tblPr.tblDescription
+        if description is None:
+            return None
+        return description.values()[0]
+
+    @tblDescription_val.setter
+    def tblDescription_val(self, description):
+        tblrPr = self.tblPr
+        tblrPr._remove_tblDescription()
+        if description is None:
+            return
+        tblrPr._add_tblDescription().val = description
+
     @classmethod
     def _tbl_xml(cls, rows, cols, width):
         col_width = Emu(width/cols) if cols > 0 else Emu(0)
@@ -190,12 +220,16 @@ class CT_Tbl(BaseOxmlElement):
             '    <w:tblLook w:firstColumn="1" w:firstRow="1"\n'
             '               w:lastColumn="0" w:lastRow="0" w:noHBand="0"\n'
             '               w:noVBand="1" w:val="04A0"/>\n'
+            '    <w:tblCaption w:val=%s/>\n'
+            '    <w:tblDescription w:val=%s/>\n'
             '  </w:tblPr>\n'
             '%s'  # tblGrid
             '%s'  # trs
             '</w:tbl>\n'
         ) % (
             nsdecls('w'),
+            "",
+            "",
             cls._tblGrid_xml(cols, col_width),
             cls._trs_xml(rows, cols, col_width)
         )
@@ -272,7 +306,7 @@ class CT_TblPr(BaseOxmlElement):
     define table properties such as style and borders.
     """
     _tag_seq = (
-        'w:tblStyle', 'w:tblpPr', 'w:tblOverlap', 'w:bidiVisual',
+        'w:tblStyle', 'w:tblpPr', 'w:tblOverlap', 'w:bidiVisual', 'w:tblCaption', 'w:tblDescription',
         'w:tblStyleRowBandSize', 'w:tblStyleColBandSize', 'w:tblW', 'w:jc',
         'w:tblCellSpacing', 'w:tblInd', 'w:tblBorders', 'w:shd',
         'w:tblLayout', 'w:tblCellMar', 'w:tblLook', 'w:tblCaption',
@@ -280,6 +314,8 @@ class CT_TblPr(BaseOxmlElement):
     )
     tblStyle = ZeroOrOne('w:tblStyle', successors=_tag_seq[1:])
     bidiVisual = ZeroOrOne('w:bidiVisual', successors=_tag_seq[4:])
+    tblCaption = ZeroOrOne('w:tblCaption', successors=_tag_seq[5:])
+    tblDescription = ZeroOrOne('w:tblDescription', successors=_tag_seq[5:])
     jc = ZeroOrOne('w:jc', successors=_tag_seq[8:])
     tblLayout = ZeroOrOne('w:tblLayout', successors=_tag_seq[13:])
     del _tag_seq

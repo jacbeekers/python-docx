@@ -102,6 +102,14 @@ class Document(ElementProxy):
         return self._part.core_properties
 
     @property
+    def extended_properties(self):
+        """
+        A |ExtendedProperties| object providing read/write access to the extended
+        properties of this document.
+        """
+        return self._part.extended_properties
+
+    @property
     def inline_shapes(self):
         """
         An |InlineShapes| object providing access to the inline shapes in
@@ -191,6 +199,7 @@ class _Body(BlockItemContainer):
     Proxy for ``<w:body>`` element in this document, having primarily a
     container role.
     """
+
     def __init__(self, body_elm, parent):
         super(_Body, self).__init__(body_elm, parent)
         self._body = body_elm
